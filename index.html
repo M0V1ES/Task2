@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>123</title>
+  <meta charset="utf-8" />
+</head>
+<body>
+<h1>Введите данные</h1>
+<form id="myForm" action="/user" method="post">
+  <p>
+    <label>Имя</label><br>
+    <input type="text" name="userName" />
+  </p>
+  <p>
+    <label>Возраст</label><br>
+    <input type="number" name="userAge" />
+  </p>
+  <input type="submit" value="Отправить" />
+</form>
+<script>
+  // данные для отправки
+  const myForm = document.getElementById("myForm"); //Определяем форму
+  myForm.addEventListener("submit", async (e)=>{ //Слушатель кнопки
+    e.preventDefault(); //Как я понял, чтобы не переходить на левый сайт, которого не  существует
+    // данные для отправки
+    const userName = myForm.userName.value; //это имя
+    const userAge = myForm.userAge.value;//это возраст
+
+
+    const response = await fetch("/user", { //создаем новую переменную, с потоком, которая ловит имя и возраст
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({name: userName, age: userAge})
+    });
+    // из объекта ответа извлекаем JSON ответа
+    const responseText = await response.json(); //переводим наш ответ в читабельный JSON
+    console.log(responseText.message) //вывод в консоль
+  });
+</script>
+</body>
+</html>
